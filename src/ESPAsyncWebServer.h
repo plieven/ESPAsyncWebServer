@@ -1037,6 +1037,7 @@ public:
     return _code;
   }
   void setContentLength(size_t len);
+  size_t getContentLength();
   void setContentType(const String &type) {
     setContentType(type.c_str());
   }
