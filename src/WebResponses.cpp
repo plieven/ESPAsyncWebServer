@@ -89,6 +89,10 @@ void AsyncWebServerResponse::setContentLength(size_t len) {
   }
 }
 
+size_t AsyncWebServerResponse::getContentLength() {
+  return _contentLength;
+}
+
 void AsyncWebServerResponse::setContentType(const char *type) {
   if (_state == RESPONSE_SETUP && addHeader(T_Content_Type, type, true)) {
     _contentType = type;
