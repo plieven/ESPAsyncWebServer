@@ -824,6 +824,7 @@ AsyncResponseStream::AsyncResponseStream(const char *contentType, size_t bufferS
   _code = 200;
   _contentLength = 0;
   _contentType = contentType;
+  _content.setTimeout(0);
   if (!_content.reserve(bufferSize)) {
 #ifdef ESP32
     log_e("Failed to allocate");
