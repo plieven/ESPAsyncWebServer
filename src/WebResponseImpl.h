@@ -10,7 +10,6 @@
 #undef max
 #endif
 #include "literals.h"
-#include <StreamString.h>
 #include <memory>
 #include <vector>
 
@@ -155,17 +154,20 @@ public:
   size_t _fillBuffer(uint8_t *buf, size_t maxLen) override final;
 };
 
+class cbuf;
+
 class AsyncResponseStream : public AsyncAbstractResponse, public Print {
 private:
-  StreamString _content;
+  std::unique_ptr<cbuf> _content;
 
 public:
   AsyncResponseStream(const char *contentType, size_t bufferSize);
   AsyncResponseStream(const String &contentType, size_t bufferSize) : AsyncResponseStream(contentType.c_str(), bufferSize) {}
-  bool _sourceValid() const override final {
+  ~AsyncResponseStream();
+  bool _sourceValid() const {
     return (_state < RESPONSE_END);
   }
-  size_t _fillBuffer(uint8_t *buf, size_t maxLen) override final;
+  virtual size_t _fillBuffer(uint8_t* buf, size_t maxLen) override;
   size_t write(const uint8_t *data, size_t len);
   size_t write(uint8_t data);
   using Print::write;
